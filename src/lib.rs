@@ -12,7 +12,7 @@
 //!
 //! ```rust
 //!
-//! mod child {
+//! mod my_space {
 //!     use puball::pub_all;
 //!
 //!     pub_all!{
@@ -24,7 +24,7 @@
 //!     }
 //! }
 //!
-//! use child::NoPrivacy;
+//! use my_space::NoPrivacy;
 //!
 //! let np = NoPrivacy {
 //!     a: 1,

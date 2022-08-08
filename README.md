@@ -23,7 +23,7 @@ puball = "0.1"
 ```
 
 ```rust
-mod child {
+mod my_space {
     use puball::pub_all;
 
     pub_all!{
@@ -36,7 +36,7 @@ mod child {
 }
 
 fn main() {
-    use child::NoPrivacy;
+    use my_space::NoPrivacy;
 
     let np = NoPrivacy {
         a: 1,
