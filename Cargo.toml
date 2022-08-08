@@ -1,0 +1,18 @@
+[package]
+name = "puball"
+version = "0.1.0"
+authors = ["Avimitin <avimitin@gmail.com>"]
+description = "Public all the field in your struct"
+documentation = "https://docs.rs/puball"
+edition = "2021"
+keywords = ["macros", "puball", "visbility", "struct"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/Avimitin/puball"
+
+[dependencies]
+syn = "1.0"
+quote = "1.0"
+
+[lib]
+proc-macro = true
