@@ -4,19 +4,16 @@
 //! # Example
 //!
 //! ```toml
-//! # Cargo.toml
-//!
 //! [dependencies]
-//! puball = "0.1"
+//! puball = "0.1.1"
 //! ```
 //!
 //! ```rust
-//!
-//! mod my_space {
+//! mod iphone {
 //!     use puball::pub_all;
 //!
 //!     pub_all!{
-//!         pub struct NoPrivacy {
+//!         struct NoPrivacy {
 //!             a: i32,
 //!             b: String,
 //!             c: bool,
@@ -24,7 +21,7 @@
 //!     }
 //! }
 //!
-//! use my_space::NoPrivacy;
+//! use iphone::NoPrivacy;
 //!
 //! let np = NoPrivacy {
 //!     a: 1,
@@ -61,14 +58,13 @@ impl Parse for Field {
 
 /// Datastructure that represent a struct be like.
 struct PublicAll {
-    vis: Visibility,
     name: Ident,
     fields: Punctuated<Field, Token![,]>,
 }
 
 impl Parse for PublicAll {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
-        let vis: Visibility = input.parse()?;
+        input.parse::<Visibility>()?;
         input.parse::<Token![struct]>()?;
         let name: Ident = input.parse()?;
 
@@ -76,12 +72,14 @@ impl Parse for PublicAll {
         braced!(content in input);
         let fields = content.parse_terminated(Field::parse)?;
 
-        Ok(Self { vis, name, fields })
+        Ok(Self { name, fields })
     }
 }
 
 /// Transforming a non-public struct to a public struct.
 /// Require normal struct declaration syntax.
+///
+/// ## Example
 ///
 /// ```
 /// pub_all!{
@@ -94,7 +92,7 @@ impl Parse for PublicAll {
 /// ```
 #[proc_macro]
 pub fn pub_all(input: TokenStream) -> TokenStream {
-    let PublicAll { vis, name, fields } = parse_macro_input!(input as PublicAll);
+    let PublicAll { name, fields } = parse_macro_input!(input as PublicAll);
 
     let recurse = fields.iter().map(|field| {
         let name = &field.name;
@@ -105,7 +103,7 @@ pub fn pub_all(input: TokenStream) -> TokenStream {
     });
 
     let expanded = quote! {
-        #vis struct #name {
+        pub struct #name {
             #(#recurse,)*
         }
     };

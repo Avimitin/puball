@@ -1,6 +1,6 @@
 [package]
 name = "puball"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Avimitin <avimitin@gmail.com>"]
 description = "Public all the field in your struct"
 documentation = "https://docs.rs/puball"
